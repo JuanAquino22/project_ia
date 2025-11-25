@@ -1,0 +1,15 @@
+chatbot rag
+2 modelos
+cual es mejor
+y el problema esidioma de bajo recursos utilizar documentos de gramatica de guarani y un set de datos y ver que tan bien puede escribir y respodner si con el rag se beneficia o no y sin el rag.
+few shot low shot o rag comparar todo.
+si necesitamos un clasificador con un bert o mas hacer finetouning
+o mejor los llms
+no es que es algo que si o si necesitamos hacer
+pero gpu si o si necesitamos.
+trabajar en el analisis y ver que todo este bien  documentado comentado buen codigo
+un readme o en el cobal 
+un repositorio en git
+openrouter
+chainlit 
+lo ideal es usar todo este repo para todo el proceso colab con el codigo de entrenamienmto para poder usar despues el modelo entrenado.
