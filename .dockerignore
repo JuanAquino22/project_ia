@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+dataset/
+*.png
+*.zip
+evaluation_results.json
+proyecto.txt
+
+# Keep only essentials
+!vectorstore_guarani/
+!app.py
+!requirements.txt
+!.env

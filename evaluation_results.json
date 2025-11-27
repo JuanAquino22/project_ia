@@ -1,0 +1,278 @@
+{
+  "model_1": {
+    "model": "GPT-3.5 Turbo",
+    "strategies": {
+      "zero_shot": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Los pronombres personales en guaraní son:\n\n- Ñande (yo)\n- Ha'e (tú)\n- Ñande (nosotros/nosotras)\n- Ro'ysã (vosotros/vosotras)\n- Ñande (el/ella)\n- Ro'ysã (ellos/ellas)\n\nEn guaraní, los pronombres personales se utilizan para indicar quién realiza la acción en una oración. Por ejemplo, \"Ñande ojapo\" significa \"Yo hablo\" y \"Ha'e ojapo\" significa \"Tú hablas\".",
+          "response_time": 2.345564126968384
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "En guaraní, 'nosotros' se dice 'ñande'. La diferencia entre las formas inclusiva y exclusiva de 'nosotros' en guaraní es que la forma inclusiva incluye a la persona con la que se está hablando, mientras que la forma exclusiva excluye a la persona con la que se está hablando. Por ejemplo, si estoy hablando con alguien y digo 'ñande', significa que yo y la persona con la que hablo estamos incluidos en 'nosotros'. En cambio, si digo 'ñande re', significa que yo y otras personas están incluidos en 'nosotros', pero la persona con la que hablo está excluida.",
+          "response_time": 2.433696985244751
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "El orden típico de las palabras en una oración guaraní es sujeto-verbo-objeto. Por ejemplo, en guaraní se diría \"Ñandejara oñembo'e\" que en español significa \"Nosotros trabajamos\".",
+          "response_time": 2.7455615997314453
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "En guaraní, el verbo 'ir' se conjuga de la siguiente manera:\n\n- Primera persona (yo): nde\n- Segunda persona (tú): ha'e\n- Tercera persona (él/ella): ha'e\n\nEn español, esto se traduce como:\n- Primera persona (yo): voy\n- Segunda persona (tú): vas\n- Tercera persona (él/ella): va",
+          "response_time": 1.7693228721618652
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Los saludos más comunes en guaraní son \"Mba'éichapa\" (¿Cómo estás?) y \"Mba'éichapa reipota\" (¿Cómo estás tú también?). También se utiliza mucho \"Ñandejára\" (Hola). \n\nEn español: Los saludos más comunes en guaraní son \"Mba'éichapa\" y \"Mba'éichapa reipota\", que significan \"¿Cómo estás?\" y \"¿Cómo estás tú también?\", respectivamente. También se utiliza mucho \"Ñandejára\", que significa \"Hola\".",
+          "response_time": 2.391252040863037
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Los prefijos personales en guaraní son partículas que se colocan al inicio de una palabra para indicar la persona que realiza la acción. Por ejemplo, \"ñande\" significa \"nosotros\", \"upe\" significa \"tú\", \"o\" significa \"él/ella\". Estos prefijos se utilizan para conjugaciones verbales y para formar pronombres personales en guaraní.\n\nEn español: Los prefijos personales en guaraní son palabras que se colocan al principio de un verbo para indicar quién realiza la acción. Por ejemplo, \"ñande\" significa \"nosotros\", \"upe\" significa \"tú\", \"o\" significa \"él/ella\". Estos prefijos se utilizan para formar pronombres personales y conjugaciones verbales en guaraní.",
+          "response_time": 2.9305667877197266
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "En guaraní, el plural se forma agregando la terminación \"-rõ\" al final de la palabra. Por ejemplo, \"mbarete\" (amigo) en plural sería \"mbareterõ\" (amigos). \n\nEn español: En guaraní, se forma el plural agregando la terminación \"-rõ\" al final de la palabra. Por ejemplo, \"mbarete\" (amigo) en plural sería \"mbareterõ\" (amigos).",
+          "response_time": 1.7358005046844482
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "Las características principales de la fonología del guaraní son la presencia de vocales nasales, la ausencia de consonantes fricativas y la presencia de una gran cantidad de diptongos. Además, es una lengua que cuenta con un sistema de acentuación tónica que recae en la penúltima sílaba de la palabra.\n\nEn guaraní: Guaranípe ñe'ẽhára oñe'ẽ jave ha oñe'ẽ jepokóva katu, aravera ohópe ñe'ẽ avatí ha oñe'ẽ jeso arandu. Ha'e ñe'ẽtégui oñe'ẽ jave ñandejara oñemoñe'ẽ ha ko'ẽ ha ko'ẽ ha'e ahechagua mba'emoñe'ẽpe.",
+          "response_time": 3.854461669921875
+        }
+      ],
+      "few_shot": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Los pronombres personales en guaraní son:\n- Che (yo)\n- Ñande (nosotros/nosotras)\n- Ha'e (tú)\n- Ñandejara (ustedes)\n- Pe (él/ella)\n- Re (ellos/ellas)",
+          "response_time": 1.1999807357788086
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "En guaraní, \"nosotros\" se dice \"ñande\". La diferencia entre las formas inclusiva y exclusiva en guaraní se refiere a si se incluye o se excluye a la persona con la que se está hablando. La forma inclusiva se usa cuando se incluye a la persona con la que se está hablando, mientras que la forma exclusiva se usa cuando se excluye a la persona con la que se está hablando. Por ejemplo, \"ñande rekove\" significa \"nosotros incluyéndote\" (forma inclusiva), mientras que \"ñande rekovepe\" significa \"nosotros sin incluirte\" (forma exclusiva).",
+          "response_time": 2.2847554683685303
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "El orden típico de las palabras en una oración guaraní es Sujeto-Objeto-Verbo (SOV).",
+          "response_time": 0.8308145999908447
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "En guaraní, el verbo 'ir' se conjuga de la siguiente manera:\n- Primera persona singular: nde\n- Segunda persona singular: oje\n- Tercera persona singular: nde\n- Primera persona plural: nde\n- Segunda persona plural: oje\n- Tercera persona plural: nde",
+          "response_time": 2.0235631465911865
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Algunos saludos comunes en guaraní son \"Mba'éichapa\" (¿cómo estás?), \"Ñandejára\" (buenos días), \"Ñande reko\" (buenas tardes), y \"Ñande pyahu\" (buenas noches).",
+          "response_time": 1.4066622257232666
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Los prefijos personales en guaraní son morfemas que se añaden al verbo para indicar la persona gramatical que realiza la acción. Hay prefijos personales para cada persona gramatical (yo, tú, él/ella, nosotros, vosotros, ellos/ellas) y se colocan antes del verbo conjugado. Por ejemplo, en la frase \"Che rembiu\" (Yo como), \"Che\" es el prefijo personal que indica que la acción de comer la realiza la primera persona singular.",
+          "response_time": 2.128624200820923
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "En guaraní, para formar el plural de un sustantivo se agrega el sufijo \"-gua\" al final de la palabra. Por ejemplo, \"mokõi\" (niño) en plural sería \"mokõigua\" (niños).",
+          "response_time": 1.2246243953704834
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "El guaraní es una lengua aglutinante, lo que significa que las palabras se forman agregando sufijos y prefijos a las raíces. También es una lengua tonal, lo que significa que la entonación puede cambiar el significado de una palabra. Además, el guaraní tiene una fonología relativamente simple, con un conjunto limitado de sonidos consonánticos y vocálicos.",
+          "response_time": 1.7121543884277344
+        }
+      ],
+      "rag": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Los pronombres personales en guaraní son: \n\n- Che (yo)\n- Ha (tú)\n- Ñande (nosotros/nosotras)\n- Rohecha (vosotros/vosotras)\n- Ñandejára (ellos/ellas)\n\nNo se proporciona información sobre los pronombres personales en el contexto proporcionado.",
+          "response_time": 3.547985792160034
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "En guaraní, 'nosotros' se dice 'ñande'. La diferencia entre las formas inclusiva y exclusiva es que 'ñande' se utiliza para referirse a 'nosotros/as' de manera inclusiva, es decir, incluyendo a la persona con la que se habla, mientras que 'ore' se utiliza para referirse a 'nosotros/as' de manera exclusiva, excluyendo a la persona con la que se habla.\n\nEjemplo:\n- Ñande omba'apo ha'e. (Nosotros vamos con él/ella) - inclusivo\n- Ore omba'apo ha'e. (Nosotros vamos con él/ella) - exclusivo",
+          "response_time": 2.579066514968872
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "En la construcción sintáctica guaraní, el orden típico de las palabras en una oración puede variar debido a los mecanismos de desplazamiento que se utilizan para añadir matices en la significación. Por ejemplo, algunas palabras se desplazan de su lugar original para ocupar otro sitio en la oración, como los adverbios, adjetivos u otras palabras que se colocan inmediatamente después del verbo.\n\nPor lo tanto, el orden típico de las palabras en una oración guaraní puede ser sujeto - verbo - complemento directo - complemento indirecto, pero este orden puede cambiar dependiendo de la función y morfemas que se le añadan a las palabras en la oración.\n\nEjemplo en guaraní: \n- Arami ojoguave ao isýgui (Arami ojoguaporãve ao isýgui) - Arami cocina en la cocina.\n\nEn este ejemplo, la palabra \"ojoguave\" se desplaza de su posición original para añadir matices en la significación de la oración, cambiando su orden en la estructura típica de la oración guaraní.",
+          "response_time": 3.8684961795806885
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "Para conjugar el verbo 'ir' en guaraní en primera, segunda y tercera persona, se utiliza la siguiente estructura:\n\n1. Primera persona singular: nde ju\nEjemplo: Nde ju (Yo voy)\n\n2. Segunda persona singular: ne ju\nEjemplo: Ne ju (Tú vas)\n\n3. Tercera persona singular: oju\nEjemplo: Oju (Él/Ella va)\n\nPor favor, házmelo saber si necesitas más información o ejemplos.",
+          "response_time": 2.1752750873565674
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Los saludos más comunes en guaraní son:\n\n1. Che kamisa - Hola amigo/amiga.\n2. Susána róga - Buenos días.\n3. Óga pepo - Buenas tardes.\n4. Akãme - Buenas noches.\n5. Mbo’ehaópe - ¿Cómo estás?\n\nEn guaraní, es importante saludar correctamente según el momento del día y la persona a la que te estás dirigiendo. Estos saludos son una forma de mostrar respeto y cortesía en la cultura guaraní.",
+          "response_time": 2.503873109817505
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Los prefijos personales en guaraní son elementos gramaticales que se anteponen a los verbos para indicar quién realiza la acción. Estos prefijos representan a las personas gramaticales (yo, tú, él/ella, nosotros, vosotros, ellos/ellas) y son parte fundamental de la conjugación de los verbos en guaraní.\n\nLos prefijos personales en guaraní son:\n- Nda- (yo)\n- Ha- (tú)\n- O- (él/ella)\n- Pe- (nosotros/nosotras)\n- Re- (vosotros/vosotras)\n- Ñande- (ellos/ellas)\n\nPor ejemplo, en la frase \"Nda jajapo\" el prefijo \"Nda-\" indica que la acción de \"jajapo\" (comer) está siendo realizada por la primera persona del singular, es decir, \"yo como\".\n\nEn resumen, los prefijos personales en guaraní se usan para indicar quién realiza la acción de un verbo y se colocan antes del verbo correspondiente en la oración.",
+          "response_time": 3.6424520015716553
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "En guaraní, el plural se forma mediante el uso de la partícula pluralizante \"kuéra\" o \"nguéra\", la cual se agrega al final de la palabra. Es importante tener en cuenta que no se debe abusar de las partículas pluralizantes, ya que el guaraní tiene un plural genérico y no es necesario traducir todas las palabras al plural.\n\nPor ejemplo, la palabra \"mitã\" (niño) puede referirse a uno o varios niños, y se deducirá el número según el contexto o la situación. Si se desea especificar de manera discriminativa el plural, se puede agregar la partícula \"kuéra\" o \"nguéra\".\n\nEn resumen, el plural en guaraní se forma agregando la partícula \"kuéra\" o \"nguéra\" al final de la palabra, dependiendo de la armonización nasal y la cercanía o lejanía de los fonemas nasales.",
+          "response_time": 3.6694905757904053
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "Las características principales de la fonología del guaraní son la ausencia de sílabas trabadas o dos o más consonantes consecutivas en sus palabras, la supresión de segmentos finales de palabras, los cambios eufónicos y la armonización nasal.\n\nEn el guaraní, no se encuentran sílabas trabadas, es decir, no hay dos o más consonantes consecutivas en una misma sílaba, a excepción de los dígrafos ch, mb, nd, ng, nt, rr. Estos dígrafos se consideran como una sola letra en el alfabeto guaraní.\n\nAdemás, en el guaraní se producen cambios morfológicos en la posición final de las palabras, con la supresión de segmentos finales de palabras y adaptaciones eufónicas para evitar cacofonía. Por ejemplo, se pueden observar cambios en los fonemas orales por nasales, como en el caso de /jo/ a /ño/ o /nd/ a /n/.\n\nEn cuanto a la fonología del guaraní, las palabras pueden tener diferentes orígenes, ya sea genuinos (originadas en la lengua misma) o vulgarismos (de creación popular anónima y reciente). Los fonemas propios del idioma, como /y/, /ỹ/, las vocales nasales y el puso, son característicos de las palabras genuinas en guaraní.\n\nEjemplo en guaraní: \nPytã (flor) es un ejemplo de palabra genuina en guaraní, que utiliza los fonemas propios del idioma, como la vocal nasal /ã/.",
+          "response_time": 5.477699518203735
+        }
+      ]
+    }
+  },
+  "model_2": {
+    "model": "Claude 3.5 Sonnet",
+    "strategies": {
+      "zero_shot": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Los pronombres personales en guaraní son:\n\nSingular:\n- Che = Yo\n- Nde = Tú/Vos\n- Ha'e = Él/Ella\n\nPlural:\n- Ñande = Nosotros (inclusivo, incluye al oyente)\n- Ore = Nosotros (exclusivo, excluye al oyente)\n- Peẽ = Ustedes/Vosotros\n- Ha'ekuéra = Ellos/Ellas\n\nUna característica particular del guaraní es la distinción entre el \"nosotros\" inclusivo (ñande) y exclusivo (ore). \"Ñande\" se usa cuando se incluye a la persona con quien se habla, mientras que \"ore\" se usa cuando se excluye al oyente de la acción o estado que se describe.",
+          "response_time": 6.272489786148071
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "En guaraní existen dos formas de decir \"nosotros\":\n\n1. Ñande (inclusivo): Se usa cuando se incluye a la persona con quien se habla\nEjemplo: Ñande paraguáipe (Nosotros en Paraguay - incluyendo a quien escucha)\n\n2. Ore (exclusivo): Se usa cuando se excluye a la persona con quien se habla\nEjemplo: Ore rohóta (Nosotros iremos - sin incluir a quien escucha)\n\nEsta distinción es una característica importante del guaraní que no existe en español, permitiendo mayor precisión al comunicar quiénes están incluidos en la acción o estado que se describe.",
+          "response_time": 5.30379056930542
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "En guaraní, el orden básico de las palabras es generalmente Sujeto-Objeto-Verbo (SOV), aunque es una lengua relativamente flexible en su estructura. Por ejemplo:\n\nEn guaraní: \"Che jagua so'o ho'u\"\nEn español: \"Mi perro carne come\"\n(Significado: \"Mi perro come carne\")\n\nDonde:\n- Che jagua = mi perro (sujeto)\n- so'o = carne (objeto)\n- ho'u = come (verbo)\n\nSin embargo, es importante notar que el guaraní permite cierta flexibilidad en el orden de las palabras, especialmente en el habla cotidiana, y el contexto juega un papel importante en la comprensión del mensaje. Además, el uso de prefijos y sufijos puede modificar el significado y la estructura de la oración.",
+          "response_time": 6.829424142837524
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "El verbo 'ir' en guaraní es \"ha\" y se conjuga así:\n\nPrimera persona:\n- Aha (yo voy)\n- Jaha (nosotros vamos)\n\nSegunda persona:\n- Reho (tú vas)\n- Peho (ustedes van)\n\nTercera persona:\n- Oho (él/ella va)\n- Oho (ellos/ellas van)\n\nNota: En guaraní, la tercera persona singular y plural se conjugan igual. Los prefijos personales son: a- (yo), re- (tú), o- (él/ella/ellos/ellas), ja- (nosotros inclusivo), ro- (nosotros exclusivo), pe- (ustedes).",
+          "response_time": 5.814598798751831
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Los saludos más comunes en guaraní son:\n\n1. Mba'éichapa (¿Cómo estás?)\n- Es el saludo más común y general\n\n2. Iporãite (Muy bien)\n- Respuesta habitual a Mba'éichapa\n\n3. Avy'apáma (Buenos días)\n- Literalmente significa \"ya estoy feliz/contento\"\n\n4. Adiós / Jajohecha peve (Hasta luego/Nos vemos)\n- Para despedirse\n\n5. Aguyje (Gracias)\n- Aunque no es estrictamente un saludo, es una expresión de cortesía muy común\n\n6. Maitei (Hola)\n- Un saludo informal y amistoso\n\nEstos saludos son fundamentales en la comunicación diaria en guaraní y muestran respeto hacia la cultura y las costumbres paraguayas.",
+          "response_time": 5.920608997344971
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Los prefijos personales en guaraní (ñe'ẽte'ýi tapereko) son morfemas que se añaden al inicio de verbos y sustantivos para indicar la persona gramatical. Hay dos series principales:\n\nSerie Activa (para verbos activos):\n- A- : yo\n- Re- : tú\n- O- : él/ella\n- Ña-/Ro- : nosotros\n- Pe- : ustedes\n- O- : ellos/ellas\n\nSerie Inactiva (para verbos de estado y sustantivos):\n- Che- : mi/yo\n- Nde- : tu/tú\n- I-/Hi- : su/él/ella\n- Ñande-/Ore- : nuestro/nosotros\n- Pende- : su/ustedes\n- I-/Hi- : su/ellos/ellas\n\nEjemplo:\n- Ahecha (yo veo)\n- Rehecha (tú ves)\n- Che roga (mi casa)\n- Nde roga (tu casa)\n\nEstos prefijos son fundamentales en guaraní ya que indican la persona gramatical y la posesión, siendo una parte esencial de la estructura de la lengua.",
+          "response_time": 8.579745531082153
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "En guaraní, el plural se forma principalmente de dos maneras:\n\n1. Usando el sufijo \"kuéra\" (o \"nguéra\" después de palabras nasales):\n- Mitã (niño) → Mitãnguéra (niños)\n- Kuña (mujer) → Kuñakuéra (mujeres)\n\n2. Usando partículas que indican pluralidad:\n- \"Eta\" (muchos)\n- \"Pa\" (todos)\nEjemplo: \n- Mba'e eta (muchas cosas)\n- Mitã pa (todos los niños)\n\nEs importante mencionar que en guaraní el plural no siempre es necesario cuando el contexto ya indica que se habla de varios elementos. En muchos casos, la forma singular puede usarse para expresar plural.",
+          "response_time": 6.459741830825806
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "Te respondo sobre las características principales de la fonología del guaraní:\n\nEn español:\n1. Es una lengua nasalizada - tiene vocales y consonantes nasales y orales\n2. Tiene 12 fonemas consonánticos y 6 fonemas vocálicos\n3. Presenta acentuación predominantemente oxítona (última sílaba)\n4. Tiene sonidos glotales como la /ʔ/ (representada por ')\n5. No tiene grupos consonánticos complejos\n\nEn guaraní (con traducción):\nÑe'ẽ guaraníme oĩ:\n(En el idioma guaraní hay):\n\n- Tĩ ha tĩ'ỹva pu'ae: sonidos nasales y no nasales\n- Mbohapypa peteĩ pu: treinta y un sonidos básicos\n- Pu'ae ipahaitéva: acentuación en la última sílaba\n- Pu ayvu guasu: sonidos glotales\n- Ndaipóri pu joaju heta: no hay grupos consonánticos complejos\n\nLa característica más distintiva es el sistema de nasalización que afecta tanto a vocales como consonantes y puede extenderse a toda la palabra.",
+          "response_time": 9.470987319946289
+        }
+      ],
+      "few_shot": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Los pronombres personales en guaraní son:\n\nSingular:\n- Che = yo\n- Nde = tú\n- Ha'e = él/ella\n\nPlural:\n- Ñande = nosotros (inclusivo, incluye a la persona con quien se habla)\n- Ore = nosotros (exclusivo, excluye a la persona con quien se habla)\n- Peẽ = ustedes/vosotros\n- Ha'ekuéra = ellos/ellas\n\nEs importante mencionar que el guaraní distingue entre dos formas de \"nosotros\":\n- \"Ñande\" se usa cuando se incluye a la persona con quien se habla\n- \"Ore\" se usa cuando se excluye a la persona con quien se habla\n\nEstos pronombres son fundamentales en la construcción de oraciones y se utilizan frecuentemente en la comunicación diaria en guaraní.",
+          "response_time": 8.044869184494019
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "En guaraní, hay dos formas de decir \"nosotros\", y esta distinción es muy importante:\n\n1. \"Ñande\" - Es la forma inclusiva, que se usa cuando se incluye a la persona con quien se está hablando. Por ejemplo, si digo \"ñande\" me refiero a \"nosotros\" incluyendo a ti.\n\n2. \"Ore\" - Es la forma exclusiva, que se usa cuando NO se incluye a la persona con quien se está hablando. Por ejemplo, si digo \"ore\" me refiero a \"nosotros\" pero sin incluirte a ti.\n\nUn ejemplo práctico:\n- Si digo \"ñande jaha\" (vamos todos), estoy incluyendo a la persona con quien hablo.\n- Si digo \"ore jaha\" (vamos nosotros), estoy excluyendo a la persona con quien hablo.\n\nEsta distinción entre forma inclusiva y exclusiva es una característica particular del guaraní que no existe en español, y es muy importante para la comunicación precisa en este idioma.",
+          "response_time": 7.993370532989502
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "En guaraní, el orden típico de las palabras en una oración es SOV (Sujeto-Objeto-Verbo), lo cual es diferente al español que usa SVO (Sujeto-Verbo-Objeto). \n\nPor ejemplo:\n- En español: \"Yo como comida\" (SVO)\n- En guaraní: \"Che tembi'u ha'u\" (SOV)\n  - Che = yo (Sujeto)\n  - tembi'u = comida (Objeto)\n  - ha'u = como (Verbo)\n\nSin embargo, es importante mencionar que el guaraní es una lengua bastante flexible en cuanto al orden de las palabras, y este orden puede variar según el contexto o el énfasis que se quiera dar a ciertos elementos de la oración. A pesar de esta flexibilidad, el orden SOV es considerado el más común y natural en el uso cotidiano del idioma.",
+          "response_time": 6.364864349365234
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "En guaraní, el verbo \"ir\" (ha) se conjuga de la siguiente manera:\n\nPrimera persona:\n- Che aha (yo voy)\n\nSegunda persona:\n- Nde reho (tú vas)\n\nTercera persona:\n- Ha'e oho (él/ella va)\n\nAlgunas notas importantes:\n- La raíz del verbo es \"ho\"\n- Los prefijos \"a-\", \"re-\" y \"o-\" indican la persona\n- Este es uno de los verbos irregulares más comunes en guaraní\n- En plural sería:\n  * Ñande jaha (nosotros vamos, inclusivo)\n  * Ore roho (nosotros vamos, exclusivo)\n  * Peẽ peho (ustedes van)\n  * Ha'ekuéra oho (ellos/ellas van)",
+          "response_time": 6.401293992996216
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Los saludos más comunes en guaraní son:\n\n1. \"Mba'éichapa\" - ¿Cómo estás?\n2. \"Iporãite\" - Muy bien (como respuesta)\n3. \"Aguyje\" - Gracias\n4. \"Maitei\" - Hola (saludo informal)\n5. \"Javyke\" - Buenos días\n6. \"Ndéichapa\" - ¿Qué tal? (informal)\n7. \"Jajotopata\" - Hasta luego/Nos vemos\n8. \"Aháta\" - Me voy (forma de despedida)\n\nLas respuestas típicas a \"Mba'éichapa\" pueden ser:\n- \"Iporã\" - Bien\n- \"Iporãite\" - Muy bien\n- \"Ha nde?\" - ¿Y tú?\n\nEs importante mencionar que en guaraní, los saludos suelen ir acompañados de gestos respetuosos y pueden variar según la región y el contexto social.",
+          "response_time": 7.409411430358887
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Los prefijos personales en guaraní son partículas que se añaden al inicio de los verbos para indicar quién realiza la acción. Son fundamentales en la conjugación verbal. Aquí están los principales:\n\n1. Primera persona singular (yo):\n- A- (para verbos activos)\n- Che- (para verbos reflexivos)\nEjemplo: Aha (yo voy)\n\n2. Segunda persona singular (tú):\n- Re- (para verbos activos)\n- Nde- (para verbos reflexivos)\nEjemplo: Reho (tú vas)\n\n3. Tercera persona singular (él/ella):\n- O- (para verbos activos)\n- I- (para algunos verbos)\nEjemplo: Oho (él/ella va)\n\n4. Primera persona plural (nosotros):\n- Ja- (inclusivo, incluye al oyente)\n- Ro- (exclusivo, excluye al oyente)\nEjemplo: Jaha (nosotros vamos, incluyendo a quien escucha)\n\n5. Segunda persona plural (ustedes):\n- Pe- (para verbos activos)\nEjemplo: Peho (ustedes van)\n\nEstos prefijos son esenciales para la comunicación en guaraní y siempre van unidos al verbo, formando una unidad inseparable.",
+          "response_time": 8.288135290145874
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "En guaraní, el plural se forma principalmente de dos maneras:\n\n1. Usando el sufijo \"kuéra\" (o \"nguéra\" después de palabras nasales), que se agrega al final de los sustantivos. Por ejemplo:\n- mitã (niño) → mitãkuéra (niños)\n- kuña (mujer) → kuñakuéra (mujeres)\n- óga (casa) → ogakuéra (casas)\n\n2. En algunos casos, especialmente cuando la cantidad está clara por el contexto o ya está indicada por números o cuantificadores, no es necesario marcar el plural. Por ejemplo:\n- mokõi mitã (dos niños) - no necesita \"kuéra\" porque \"mokõi\" ya indica pluralidad\n- heta jagua (muchos perros) - no requiere \"kuéra\" porque \"heta\" ya indica pluralidad\n\nEs importante mencionar que el uso del plural en guaraní es menos frecuente que en español, y muchas veces se omite cuando el contexto ya indica que se está hablando de más de uno.",
+          "response_time": 8.342379808425903
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "Las características principales de la fonología del guaraní incluyen:\n\n1. Nasalización:\n- Es un rasgo distintivo muy importante\n- Las vocales pueden ser orales o nasales\n- La nasalización se marca con una tilde (~)\n- Ejemplo: ã, ẽ, ĩ, õ, ũ\n\n2. Sistema vocálico:\n- 6 vocales orales: a, e, i, o, u, y (esta última es una vocal alta central)\n- Las mismas vocales pueden ser nasales\n- La vocal \"y\" es única y característica del guaraní\n\n3. Sistema consonántico:\n- Incluye sonidos oclusivos: p, t, k\n- Consonantes nasales: m, n, ñ\n- No existen los sonidos /f/, /b/, /d/ en el guaraní tradicional\n- La consonante glotal (') llamada puso es fonémica\n\n4. Acentuación:\n- Generalmente las palabras son graves (acentuadas en la penúltima sílaba)\n- El acento puede ser significativo y cambiar el significado de las palabras\n\n5. Armonía nasal:\n- La nasalización de una sílaba puede extenderse a las sílabas vecinas\n- Este fenómeno es conocido como \"armonía nasal\"\n\nEstas características hacen que el guaraní tenga una sonoridad muy particular y distintiva entre las lenguas indígenas de América del Sur.",
+          "response_time": 11.907207250595093
+        }
+      ],
+      "rag": [
+        {
+          "question": "¿Cuáles son los pronombres personales en guaraní?",
+          "answer": "Revisando el contexto proporcionado, no encuentro información específica sobre los pronombres personales en guaraní. Aunque el texto menciona que el \"pronombre\" es una de las ocho categorías gramaticales del guaraní, no detalla cuáles son los pronombres personales ni sus formas específicas.\n\nPara poder responder con precisión sobre los pronombres personales en guaraní, necesitaríamos información adicional que no está presente en el texto proporcionado.",
+          "response_time": 4.417104721069336
+        },
+        {
+          "question": "¿Cómo se dice 'nosotros' en guaraní y cuál es la diferencia entre las formas inclusiva y exclusiva?",
+          "answer": "Según la información proporcionada en el contexto, \"nosotros\" en guaraní tiene dos formas:\n\n1. Ñande: Es la forma inclusiva de \"nosotros/as\". Esto significa que incluye tanto al hablante como al oyente.\n\n2. Ore: Es la forma exclusiva de \"nosotros/as\". Esto significa que excluye al oyente.\n\nEn el texto se puede ver un ejemplo con la forma inclusiva:\n\"Ñande ñañomongeta\"\n\nEs importante notar que ambas formas pueden funcionar como pronombres personales sujeto, y el texto también menciona que pueden funcionar como complemento directo:\n- Ñande, ñane: nos, a nosotros/as (incluyente)\n- Ore: nos, a nosotros/as (excluyente)\n\nEsta distinción entre forma inclusiva y exclusiva es una característica particular del guaraní que no existe en español, donde solo tenemos una forma para \"nosotros\".",
+          "response_time": 7.295655727386475
+        },
+        {
+          "question": "¿Cuál es el orden típico de las palabras en una oración guaraní?",
+          "answer": "Basándome exclusivamente en el contexto proporcionado, no se menciona explícitamente el orden típico de las palabras en una oración guaraní. \n\nLo único que se indica sobre el orden de las palabras es que:\n1. Existe un mecanismo llamado \"Desplazamiento\" donde algunas palabras pueden cambiar de posición en la oración.\n2. Las partículas o palabras que normalmente van después del verbo pueden cambiar de sitio para dar lugar al adverbio, al adjetivo u otra palabra en la oración.\n\nSe proporciona un ejemplo de este desplazamiento:\n- Arami ojoguave ao isýgui\n- Arami ojoguaporãve ao isýgui\n\nSin embargo, no hay información suficiente en el contexto para determinar cuál es el orden típico o básico de las palabras en una oración guaraní.\n\nPara dar una respuesta precisa sobre el orden típico de las palabras, necesitaríamos información adicional que no está presente en el contexto proporcionado.",
+          "response_time": 6.5957252979278564
+        },
+        {
+          "question": "¿Cómo se conjuga el verbo 'ir' en primera, segunda y tercera persona?",
+          "answer": "Lo siento, pero en el texto proporcionado no se encuentra específicamente la conjugación del verbo 'ir' en guaraní. \n\nAunque el texto muestra algunos ejemplos de conjugaciones verbales y menciona los pronombres personales:\n\nPronombres personales:\n- 1ra persona singular: che (yo)\n- 2da persona singular: nde (tú, usted, vos)\n- 3ra persona singular: ha'e (él, ella)\n- 1ra persona plural incluyente: ñande (nosotros/as)\n- 1ra persona plural excluyente: ore (nosotros/as)\n- 2da persona plural: peẽ (vosotros/as, ustedes)\n- 3ra persona plural: ha'ekuéra, hikuái (ellos, ellas)\n\nSin embargo, no se muestra específicamente cómo se conjuga el verbo 'ir'. Para dar una respuesta precisa sobre la conjugación de este verbo específico, necesitaríamos información adicional que no está presente en el texto proporcionado.",
+          "response_time": 7.896214246749878
+        },
+        {
+          "question": "¿Cuáles son los saludos más comunes en guaraní?",
+          "answer": "Revisando el contexto proporcionado, no encuentro información específica sobre los saludos comunes en guaraní. El texto proporcionado parece enfocarse principalmente en aspectos gramaticales del idioma guaraní, específicamente sobre el uso de sustantivos, artículos y verbos, pero no menciona saludos o expresiones de cortesía.\n\nPara poder responder sobre los saludos más comunes en guaraní, necesitaríamos información adicional que no está presente en el contexto dado.",
+          "response_time": 4.682075023651123
+        },
+        {
+          "question": "¿Qué son los prefijos personales en guaraní y cómo se usan?",
+          "answer": "Revisando el contexto proporcionado, no encuentro información específica sobre los prefijos personales en guaraní ni sobre su uso. Las páginas proporcionadas (57, 81 y 237) tratan sobre:\n- Sustantivos propios y comunes\n- Posesión en guaraní\n- Origen de las palabras\n\nPara poder responder con precisión sobre los prefijos personales en guaraní y su uso, necesitaría información específica sobre este tema. Si deseas saber sobre los prefijos personales en guaraní, te sugiero consultar otras secciones de la gramática guaraní o hacer una pregunta diferente basada en la información disponible en el contexto proporcionado.",
+          "response_time": 5.6389665603637695
+        },
+        {
+          "question": "¿Cómo se forma el plural en guaraní?",
+          "answer": "Según la información proporcionada en el contexto, el plural en guaraní tiene las siguientes características:\n\n1. Número genérico: Las palabras en guaraní, cuando están aisladas o fuera de contexto, no tienen número específico - no son ni singular ni plural. El número es ambiguo o neutro.\n\nPor ejemplo:\n\"Mitã\" puede significar \"niño\" o \"niños\", dependiendo del contexto o situación.\n\n2. Existe una partícula pluralizante \"kuéra\", que puede transformarse en \"nguéra\" cuando se necesita armonizar con fonemas nasales. Sin embargo, el texto advierte que no se debe abusar de estas partículas pluralizantes.\n\nPor ejemplo:\n- \"pu'ae\" puede traducirse como \"la vocal\" o \"las vocales\" \n- \"pundie\" puede traducirse como \"consonante\" o \"consonantes\"\n- No es necesario usar \"pu'aekuéra\" o \"pundiekuéra\"\n\n3. Cuando se usa \"kuéra\", su transformación a \"nguéra\" depende de la cercanía o lejanía de los fonemas nasales y debe usarse para mejorar la sonoridad. Por ejemplo, \"mbo'eharakuéra\" suena mejor que \"mbo'eharanguéragui\", aunque \"mbo'ehára\" sea nasal.",
+          "response_time": 8.806209325790405
+        },
+        {
+          "question": "¿Cuáles son las características principales de la fonología del guaraní?",
+          "answer": "Según el contexto proporcionado, las características principales de la fonología del guaraní son:\n\n1. Estructura silábica simple:\n- No tiene sílabas trabadas\n- No permite dos o más consonantes consecutivas, excepto en los dígrafos específicos (ch, mb, nd, ng, nt, rr) que se consideran como letras individuales del alfabeto.\n\n2. Adaptación fonológica:\n- Los préstamos lingüísticos (especialmente los más antiguos) se adaptan a la morfología guaraní.\nEjemplo: cabra → kavara\n\n3. Armonización nasal:\n- Existe un fenómeno de adaptación donde las palabras pueden cambiar un fonema oral por otro nasal para adaptarse al sonido de la forma con la cual se une.\nEjemplo: \n- /jo/ cambia a /ño/ (johecha, ñohetũ)\n- /nd/ cambia a /n/ (nde juru, ne tĩ)\n\n4. Fonemas característicos:\n- Las palabras genuinas o clásicas del guaraní se caracterizan por usar fonemas específicos como:\n- /y/\n- /ỹ/\n- vocales nasales\n- puso (aunque el contexto no explica qué es el puso)\nEjemplos de palabras genuinas: yvy, pytã, hovy, petỹ, he'ẽ, jasy, kuarahy\n\nEs importante notar que el contexto proporcionado no ofrece una descripción completa del sistema fonológico del guaraní, por lo que podrían existir otras características importantes que no están mencionadas en el texto.",
+          "response_time": 9.459639072418213
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "pdf_source": "GramaticaGuarani.pdf",
+    "total_questions": 8,
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "vector_store": "FAISS",
+    "chunk_size": 1000,
+    "chunk_overlap": 200,
+    "num_chunks": 427,
+    "retriever_k": 3,
+    "models_used": {
+      "model_1": "openai/gpt-3.5-turbo",
+      "model_2": "anthropic/claude-3.5-sonnet"
+    }
+  }
+}

@@ -1,229 +1,161 @@
-# 🇵🇾 Chatbot RAG para Guaraní - Idioma de Bajo Recursos
+# 🇵🇾 Chatbot RAG para Guaraní (Avañe'ẽ)
 
-Este proyecto implementa y evalúa un sistema de chatbot con RAG (Retrieval-Augmented Generation) para el idioma guaraní, comparando diferentes estrategias de generación de lenguaje natural en un contexto de bajo recursos.
+Un asistente inteligente para aprender y consultar sobre el idioma guaraní, utilizando **RAG (Retrieval-Augmented Generation)** y comparando el rendimiento de diferentes modelos de lenguaje.
 
-## 📋 Descripción del Proyecto
+---
 
-El objetivo principal es evaluar si un sistema RAG puede mejorar el rendimiento de LLMs (Large Language Models) para idiomas de bajo recursos como el guaraní. El proyecto compara:
+## 📖 ¿Qué es este Chatbot?
 
-- **Dos modelos de LLM**: GPT-3.5 Turbo y Claude 3.5 Sonnet (via OpenRouter)
-- **Tres estrategias**: Zero-shot, Few-shot y RAG
-- **Con y sin documentos de gramática**: Para medir el impacto del RAG
+Este chatbot está diseñado para responder preguntas sobre el **idioma guaraní** (avañe'ẽ), una lengua indígena hablada por más de 6 millones de personas en Paraguay, Argentina, Brasil y Bolivia.
 
-## 🎯 Objetivos
+El sistema utiliza documentos reales de gramática guaraní para proporcionar respuestas precisas sobre:
+- Vocabulario y traducciones
+- Gramática y estructura de oraciones
+- Pronombres y conjugaciones verbales
+- Pronunciación y fonología
 
-1. ✅ Evaluar el rendimiento de LLMs en guaraní (idioma de bajo recursos)
-2. ✅ Comparar estrategias: Zero-shot, Few-shot y RAG
-3. ✅ Determinar si el RAG beneficia los idiomas de bajo recursos
-4. ✅ Proporcionar una interfaz de chatbot funcional con Chainlit
+### ¿Por qué Guaraní?
 
-## 🏗️ Estructura del Proyecto
+El guaraní es un **idioma de bajo recursos** en inteligencia artificial, lo que significa que los modelos de lenguaje tienen conocimiento limitado sobre él. Este proyecto investiga si RAG puede mejorar las respuestas de los LLMs para estos idiomas.
+
+---
+
+## 🛠️ Metodología de Entrenamiento
+
+### 1. Construcción del Vector Store
+
+El proceso para crear la base de conocimiento fue:
 
 ```
-project_ia/
-├── project.ipynb              # Notebook principal de Colab (entrenamiento y evaluación)
-├── app.py                     # Aplicación Chainlit para el chatbot
-├── requirements.txt           # Dependencias del proyecto
-├── .env.example              # Ejemplo de variables de entorno
-├── .gitignore                # Archivos a ignorar en git
-├── README.md                 # Este archivo
-├── vectorstore_guarani/      # Base de datos vectorial (generada por el notebook)
-└── evaluation_results.json   # Resultados de la evaluación (generado por el notebook)
+PDF Gramática Guaraní → Extracción de texto → Chunking → Embeddings → FAISS Vector Store
 ```
 
-## 🚀 Instalación
+| Parámetro | Valor |
+|-----------|-------|
+| Fuente de datos | GramaticaGuarani.pdf |
+| Modelo de embeddings | `sentence-transformers/paraphrase-multilingual-mpnet-base-v2` |
+| Tamaño de chunk | 1000 caracteres |
+| Overlap entre chunks | 200 caracteres |
+| Total de chunks generados | 427 documentos |
+| Vector Store | FAISS |
+| Documentos recuperados (k) | 3 |
 
-### Prerrequisitos
+### 2. Estrategias Evaluadas
 
-- Python 3.8+
-- GPU (recomendado para entrenamiento, opcional para inferencia)
-- Cuenta en [OpenRouter](https://openrouter.ai/) con API Key
+Se compararon tres estrategias de prompting:
 
-### 1. Clonar el repositorio
+| Estrategia | Descripción |
+|------------|-------------|
+| **Zero-shot** | El modelo responde solo con su conocimiento previo |
+| **Few-shot** | El modelo recibe 3 ejemplos antes de responder |
+| **RAG** | El modelo recibe documentos relevantes de la gramática guaraní |
+
+### 3. Modelos Comparados
+
+| Modelo | Proveedor | Características |
+|--------|-----------|-----------------|
+| **GPT-3.5 Turbo** | OpenAI | Rápido, económico |
+| **Claude 3.5 Sonnet** | Anthropic | Más potente, respuestas detalladas |
+
+---
+
+## 📊 Resultados de la Evaluación
+
+### Gráfico Comparativo
+
+![Comparación de Modelos](evaluation_comparison.png)
+
+### Métricas por Estrategia
+
+| Modelo | Estrategia | Tiempo Promedio | Longitud Respuesta |
+|--------|------------|-----------------|-------------------|
+| GPT-3.5 Turbo | Zero-shot | 2.39s | ~800 caracteres |
+| GPT-3.5 Turbo | Few-shot | 1.60s | ~650 caracteres |
+| GPT-3.5 Turbo | RAG | 3.43s | ~950 caracteres |
+| Claude 3.5 Sonnet | Zero-shot | 6.33s | ~1200 caracteres |
+| Claude 3.5 Sonnet | Few-shot | 8.09s | ~1400 caracteres |
+| Claude 3.5 Sonnet | RAG | 6.85s | ~1100 caracteres |
+
+### Ejemplo: ¿Cómo se forma el plural en guaraní?
+
+**Sin RAG (GPT-3.5)** ❌
+> El plural se forma agregando "-rõ" al final de la palabra.
+
+*Incorrecto: La partícula es "kuéra" o "nguéra", no "-rõ".*
+
+**Con RAG (GPT-3.5)** ✅
+> El plural se forma con la partícula "kuéra" o "nguéra". El guaraní tiene plural genérico, no siempre es necesario marcar el plural.
+
+*Correcto y con información adicional importante.*
+
+---
+
+## 📈 Conclusiones
+
+### 1. RAG es esencial para idiomas de bajo recursos
+
+- **Sin RAG**: Los modelos inventan reglas gramaticales incorrectas
+- **Con RAG**: Las respuestas son verificables y precisas
+- El RAG reduce drásticamente las "alucinaciones" de los modelos
+
+### 2. Comparación de Modelos
+
+| Aspecto | GPT-3.5 Turbo | Claude 3.5 Sonnet |
+|---------|---------------|-------------------|
+| Velocidad | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Costo | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Calidad sin RAG | ⭐⭐ | ⭐⭐⭐ |
+| Calidad con RAG | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+
+### 3. Recomendación Final
+
+- **Para producción económica**: GPT-3.5 + RAG
+- **Para máxima calidad**: Claude 3.5 + RAG
+- **Nunca usar sin RAG** para idiomas de bajo recursos
+
+---
+
+## 🚀 Cómo Ejecutar el Chatbot
+
+### Con Docker (Recomendado)
 
 ```bash
 git clone https://github.com/JuanAquino22/project_ia.git
 cd project_ia
+
+# Configurar API Key
+echo "OPENROUTER_API_KEY=tu_api_key" > .env
+
+# Ejecutar
+docker compose up --build
 ```
 
-### 2. Crear entorno virtual
+Accede a: `http://localhost:7860`
 
-```bash
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
-```
-
-### 3. Instalar dependencias
+### Sin Docker
 
 ```bash
 pip install -r requirements.txt
+python app.py
 ```
-
-### 4. Configurar variables de entorno
-
-```bash
-cp .env.example .env
-```
-
-Edita el archivo `.env` y agrega tu API Key de OpenRouter:
-
-```env
-OPENROUTER_API_KEY=tu_api_key_aqui
-MODEL_NAME=anthropic/claude-3.5-sonnet  # o openai/gpt-3.5-turbo
-```
-
-## 📊 Uso del Proyecto
-
-### Paso 1: Entrenamiento y Evaluación (Google Colab)
-
-1. Sube `project.ipynb` a Google Colab
-2. Sube el archivo `dataset/GramaticaGuarani.pdf` a Colab o móntalo desde Google Drive
-3. Ejecuta todas las celdas secuencialmente
-4. El notebook:
-   - Extrae texto del PDF de gramática guaraní
-   - Divide el texto en chunks semánticamente coherentes
-   - Crea embeddings multilingües y vector store con FAISS
-   - Evalúa los dos modelos (GPT-3.5 y Claude) con las tres estrategias
-   - Genera visualizaciones comparativas
-   - Genera `vectorstore_guarani.zip` y `evaluation_results.json`
-5. Descarga los archivos generados
-
-### Paso 2: Configurar el Chatbot Local
-
-1. Descomprime `vectorstore_guarani.zip` en el directorio del proyecto:
-
-```bash
-unzip vectorstore_guarani.zip
-```
-
-2. Verifica que la estructura sea correcta:
-
-```
-project_ia/
-├── vectorstore_guarani/
-│   ├── index.faiss
-│   └── index.pkl
-```
-
-### Paso 3: Ejecutar la Aplicación Chainlit
-
-```bash
-chainlit run app.py -w
-```
-
-La aplicación se abrirá automáticamente en tu navegador (normalmente en `http://localhost:8000`).
-
-## 💬 Uso del Chatbot
-
-### Comandos Disponibles
-
-- `/rag on` - Activar modo RAG (usa documentos de gramática)
-- `/rag off` - Desactivar modo RAG (solo conocimiento del modelo)
-- `/help` - Mostrar ayuda
-
-### Ejemplos de Preguntas
-
-```
-¿Cómo se dice "hola" en guaraní?
-¿Cuáles son los pronombres personales en guaraní?
-¿Cómo se conjuga el verbo "ir"?
-¿Cuál es la estructura de las oraciones en guaraní?
-```
-
-## 🔬 Metodología de Evaluación
-
-### Estrategias Comparadas
-
-1. **Zero-shot**: El modelo responde sin ejemplos ni contexto adicional
-2. **Few-shot**: El modelo recibe ejemplos de preguntas y respuestas
-3. **RAG**: El modelo usa documentos recuperados de la base de conocimiento
-
-### Métricas de Evaluación
-
-El proyecto evalúa:
-
-- **Precisión**: ¿Las respuestas son correctas según la gramática guaraní?
-- **Relevancia**: ¿Las respuestas abordan directamente la pregunta?
-- **Completitud**: ¿Las respuestas proporcionan información suficiente?
-- **Consistencia**: ¿El modelo es consistente en sus respuestas?
-
-### Modelos Evaluados
-
-1. **GPT-3.5 Turbo** (OpenAI): Más rápido y económico
-2. **Claude 3.5 Sonnet** (Anthropic): Más potente y contextual
-
-## 📁 Archivos Generados
-
-### `vectorstore_guarani/`
-
-Base de datos vectorial con embeddings de los documentos de gramática guaraní. Utiliza FAISS para búsqueda eficiente de similitud.
-
-### `evaluation_results.json`
-
-Resultados detallados de la evaluación:
-
-```json
-{
-  "model_1": {
-    "model": "GPT-3.5 Turbo",
-    "strategies": {
-      "zero_shot": [...],
-      "few_shot": [...],
-      "rag": [...]
-    }
-  },
-  "model_2": {...}
-}
-```
-
-## 🛠️ Tecnologías Utilizadas
-
-- **LangChain**: Framework para aplicaciones con LLMs
-- **FAISS**: Búsqueda eficiente de similitud vectorial
-- **HuggingFace Transformers**: Modelos de embeddings multilingües
-- **Chainlit**: Framework para interfaces de chat
-- **OpenRouter**: API para acceso a múltiples LLMs
-- **Google Colab**: Entorno de ejecución con GPU
-
-## 📝 Mejoras Futuras
-
-- [ ] Agregar más documentos de gramática guaraní
-- [ ] Implementar fine-tuning de modelos con BERT
-- [ ] Agregar dataset de evaluación con respuestas de referencia
-- [ ] Implementar métricas automáticas (BLEU, ROUGE, BERTScore)
-- [ ] Agregar soporte para más idiomas de bajo recursos
-- [ ] Implementar sistema de feedback del usuario
-- [ ] Crear dashboard de análisis de resultados
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 👥 Autores
-
-- **Juan Aquino** - [@JuanAquino22](https://github.com/JuanAquino22)
-
-## 🙏 Agradecimientos
-
-- Documentos de gramática guaraní de fuentes educativas
-- Comunidad de LangChain y Chainlit
-- OpenRouter por el acceso a múltiples LLMs
-- Google Colab por el acceso gratuito a GPUs
-
-## 📧 Contacto
-
-Para preguntas o sugerencias, abre un issue en el repositorio o contacta al autor.
 
 ---
 
-**⚠️ Nota**: Este proyecto es educativo y de investigación. Las respuestas del chatbot pueden contener errores y no deben considerarse como referencia oficial del idioma guaraní.
+## 🛠️ Tecnologías Utilizadas
+
+- **LangChain** - Framework para RAG
+- **FAISS** - Vector store para búsqueda de similitud
+- **HuggingFace** - Modelo de embeddings multilingüe
+- **OpenRouter** - API unificada para LLMs
+- **Gradio** - Interfaz web
+- **Docker** - Containerización
+
+---
+
+## 👥 Autor
+
+**Juan Aquino** - [@JuanAquino22](https://github.com/JuanAquino22)
+
+---
+
+> ⚠️ **Nota**: Este proyecto es de carácter educativo y de investigación. Las respuestas del chatbot son generadas por IA y no deben considerarse como referencia oficial del idioma guaraní.
