@@ -1,142 +1,178 @@
-# 🇵🇾 Chatbot RAG para Guaraní (Avañe'ẽ)
+# 🇵🇾 Sistema de Transformación de Oraciones en Guaraní con RAG
 
-Un asistente inteligente para aprender y consultar sobre el idioma guaraní, utilizando **RAG (Retrieval-Augmented Generation)** y comparando el rendimiento de diferentes modelos de lenguaje.
+Sistema de procesamiento de lenguaje natural para transformar oraciones en guaraní según reglas gramaticales específicas, comparando el rendimiento de modelos de lenguaje con y sin **RAG (Retrieval-Augmented Generation)**.
 
 ---
 
-## 📖 ¿Qué es este Chatbot?
+## 📖 ¿Qué hace este sistema?
 
-Este chatbot está diseñado para responder preguntas sobre el **idioma guaraní** (avañe'ẽ), una lengua indígena hablada por más de 6 millones de personas en Paraguay, Argentina, Brasil y Bolivia.
+Este proyecto implementa un sistema capaz de transformar oraciones en guaraní aplicando reglas gramaticales específicas (negación → afirmación, tiempo verbal, etc.).
 
-El sistema utiliza documentos reales de gramática guaraní para proporcionar respuestas precisas sobre:
-- Vocabulario y traducciones
-- Gramática y estructura de oraciones
-- Pronombres y conjugaciones verbales
-- Pronunciación y fonología
+**Objetivo principal:** Evaluar si el uso de RAG (recuperación de documentación gramatical) mejora la capacidad de los LLMs para generar transformaciones correctas en **idiomas de bajo recursos** como el guaraní.
+
+### Dataset: AmericasNLP 2025
+
+Utilizamos el dataset oficial de AmericasNLP para la tarea de transformación educativa:
+- **Input:** Oración base (`Source`) + Regla de transformación (`Change`)
+- **Output:** Oración transformada (`Target`)
+
+**Ejemplo:**
+```
+Source: "Ore ndorombyai kuri"
+Change: "TYPE:AFF" (convertir a afirmativo)
+Target: "Ore rombyai kuri"
+```
 
 ### ¿Por qué Guaraní?
 
-El guaraní es un **idioma de bajo recursos** en inteligencia artificial, lo que significa que los modelos de lenguaje tienen conocimiento limitado sobre él. Este proyecto investiga si RAG puede mejorar las respuestas de los LLMs para estos idiomas.
+El guaraní es un **idioma de bajo recursos** en PLN, lo que significa que los modelos de lenguaje tienen conocimiento limitado sobre él. Este proyecto demuestra cómo RAG puede mejorar el rendimiento de los LLMs en estas lenguas.
 
 ---
 
-## 🛠️ Metodología de Entrenamiento
+## 🛠️ Metodología
 
-### 1. Construcción del Vector Store
+### 1. Dataset y Tarea
 
-El proceso para crear la base de conocimiento fue:
+**Dataset:** AmericasNLP 2025 - Educational Materials Transformation
+- **Train:** Para ajuste de prompts y experimentación
+- **Dev:** Para validación y ajuste de hiperparámetros
+- **Test:** Para evaluación final
 
+**Splits:**
 ```
-PDF Gramática Guaraní → Extracción de texto → Chunking → Embeddings → FAISS Vector Store
+├── guarani-train.tsv
+├── guarani-dev.tsv
+└── guarani-test.tsv
+```
+
+### 2. Base de Conocimiento (RAG)
+
+**Documentos utilizados:**
+- `Gramática guaraní.pdf` (Edición 2020)
+- `Diccionario Guaraní-Español.pdf` (opcional)
+
+**Proceso de construcción:**
+```
+PDF → Extracción de texto → Chunking (1000 chars) → Embeddings → FAISS Vector Store
 ```
 
 | Parámetro | Valor |
 |-----------|-------|
-| Fuente de datos | GramaticaGuarani.pdf |
 | Modelo de embeddings | `sentence-transformers/paraphrase-multilingual-mpnet-base-v2` |
 | Tamaño de chunk | 1000 caracteres |
 | Overlap entre chunks | 200 caracteres |
-| Total de chunks generados | 427 documentos |
 | Vector Store | FAISS |
 | Documentos recuperados (k) | 3 |
 
-### 2. Estrategias Evaluadas
-
-Se compararon tres estrategias de prompting:
-
-| Estrategia | Descripción |
-|------------|-------------|
-| **Zero-shot** | El modelo responde solo con su conocimiento previo |
-| **Few-shot** | El modelo recibe 3 ejemplos antes de responder |
-| **RAG** | El modelo recibe documentos relevantes de la gramática guaraní |
-
-### 3. Modelos Comparados
+### 3. Modelos Evaluados
 
 | Modelo | Proveedor | Características |
 |--------|-----------|-----------------|
 | **GPT-3.5 Turbo** | OpenAI | Rápido, económico |
 | **Claude 3.5 Sonnet** | Anthropic | Más potente, respuestas detalladas |
 
+### 4. Estrategias Comparadas
+
+| Estrategia | Descripción |
+|------------|-------------|
+| **Sin RAG** | El modelo usa solo su conocimiento previo del guaraní |
+| **Con RAG** | El modelo recibe fragmentos relevantes de la gramática guaraní |
+
 ---
 
-## 📊 Resultados de la Evaluación
+## 📊 Resultados
 
-### Gráfico Comparativo
+### Métricas Evaluadas
 
-![Comparación de Modelos](evaluation_comparison.png)
+- **Accuracy:** Porcentaje de transformaciones exactamente correctas
+- **BLEU Score:** Similitud entre la transformación generada y la esperada
 
-### Métricas por Estrategia
+### Tabla Comparativa (Ejemplo)
 
-| Modelo | Estrategia | Tiempo Promedio | Longitud Respuesta |
-|--------|------------|-----------------|-------------------|
-| GPT-3.5 Turbo | Zero-shot | 2.39s | ~800 caracteres |
-| GPT-3.5 Turbo | Few-shot | 1.60s | ~650 caracteres |
-| GPT-3.5 Turbo | RAG | 3.43s | ~950 caracteres |
-| Claude 3.5 Sonnet | Zero-shot | 6.33s | ~1200 caracteres |
-| Claude 3.5 Sonnet | Few-shot | 8.09s | ~1400 caracteres |
-| Claude 3.5 Sonnet | RAG | 6.85s | ~1100 caracteres |
+| Modelo | Estrategia | Accuracy (%) | BLEU Score |
+|--------|------------|--------------|------------|
+| GPT-3.5 Turbo | Sin RAG | XX.XX% | XX.XX |
+| GPT-3.5 Turbo | Con RAG | XX.XX% | XX.XX |
+| Claude 3.5 Sonnet | Sin RAG | XX.XX% | XX.XX |
+| Claude 3.5 Sonnet | Con RAG | XX.XX% | XX.XX |
 
-### Ejemplo: ¿Cómo se forma el plural en guaraní?
+*Nota: Los resultados se generan ejecutando el notebook completo.*
 
-**Sin RAG (GPT-3.5)** ❌
-> El plural se forma agregando "-rõ" al final de la palabra.
+### Ejemplo de Transformación
 
-*Incorrecto: La partícula es "kuéra" o "nguéra", no "-rõ".*
+**Input:**
+```
+Source: "Ore ndorombyai kuri"
+Change: "TYPE:AFF"
+```
 
-**Con RAG (GPT-3.5)** ✅
-> El plural se forma con la partícula "kuéra" o "nguéra". El guaraní tiene plural genérico, no siempre es necesario marcar el plural.
+**Sin RAG (GPT-3.5):**
+```
+Prediction: "Ore rombyai" ❌ (incompleto)
+```
 
-*Correcto y con información adicional importante.*
+**Con RAG (GPT-3.5):**
+```
+Prediction: "Ore rombyai kuri" ✅ (correcto)
+```
 
 ---
 
 ## 📈 Conclusiones
 
-### 1. RAG es esencial para idiomas de bajo recursos
+### 1. ¿Qué modelo es mejor?
 
-- **Sin RAG**: Los modelos inventan reglas gramaticales incorrectas
-- **Con RAG**: Las respuestas son verificables y precisas
-- El RAG reduce drásticamente las "alucinaciones" de los modelos
+Analizar según las métricas obtenidas:
+- **Accuracy:** Qué modelo acierta más transformaciones
+- **BLEU:** Qué modelo genera texto más similar al esperado
+- **Velocidad y costo:** GPT-3.5 es más rápido y económico
 
-### 2. Comparación de Modelos
+### 2. ¿RAG mejora el rendimiento?
 
-| Aspecto | GPT-3.5 Turbo | Claude 3.5 Sonnet |
-|---------|---------------|-------------------|
-| Velocidad | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Costo | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Calidad sin RAG | ⭐⭐ | ⭐⭐⭐ |
-| Calidad con RAG | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+- **Sin RAG:** Los modelos dependen solo de su conocimiento previo (limitado para guaraní)
+- **Con RAG:** Los modelos acceden a reglas gramaticales específicas
+- **Hipótesis:** RAG debería mejorar significativamente el accuracy en idiomas de bajo recursos
 
-### 3. Recomendación Final
+### 3. Importancia para idiomas de bajo recursos
 
-- **Para producción económica**: GPT-3.5 + RAG
-- **Para máxima calidad**: Claude 3.5 + RAG
-- **Nunca usar sin RAG** para idiomas de bajo recursos
+- El guaraní tiene escasa representación en los datos de entrenamiento de LLMs
+- RAG permite "enseñar" al modelo información específica sin fine-tuning
+- Método escalable para otros idiomas indígenas
 
 ---
 
-## 🚀 Cómo Ejecutar el Chatbot
+## 🚀 Cómo Ejecutar el Proyecto
 
-### Con Docker (Recomendado)
+### Opción 1: Google Colab (Recomendado)
+
+1. Abre el notebook en Colab:
+   - Clic en el badge "Open in Colab" al inicio del notebook
+   - O visita: https://colab.research.google.com/github/JuanAquino22/project_ia/blob/main/project_nuevo.ipynb
+
+2. Configura tu API Key de OpenRouter:
+   ```python
+   # En Colab Secrets o en el notebook
+   OPENROUTER_API_KEY = "tu_api_key_aqui"
+   ```
+
+3. Sube el archivo `Gramática guaraní.pdf` cuando se te pida
+
+4. Ejecuta todas las celdas secuencialmente
+
+### Opción 2: Local
 
 ```bash
 git clone https://github.com/JuanAquino22/project_ia.git
 cd project_ia
 
+# Instalar dependencias
+pip install -r requirements.txt
+
 # Configurar API Key
 echo "OPENROUTER_API_KEY=tu_api_key" > .env
 
-# Ejecutar
-docker compose up --build
-```
-
-Accede a: `http://localhost:7860`
-
-### Sin Docker
-
-```bash
-pip install -r requirements.txt
-python app.py
+# Ejecutar notebook
+jupyter notebook project_nuevo.ipynb
 ```
 
 ---
@@ -146,9 +182,25 @@ python app.py
 - **LangChain** - Framework para RAG
 - **FAISS** - Vector store para búsqueda de similitud
 - **HuggingFace** - Modelo de embeddings multilingüe
-- **OpenRouter** - API unificada para LLMs
-- **Gradio** - Interfaz web
-- **Docker** - Containerización
+- **OpenRouter** - API unificada para LLMs (GPT-3.5, Claude 3.5)
+- **SacreBLEU** - Métricas de evaluación de texto
+- **Pandas** - Procesamiento de datos
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+project_ia/
+├── project_nuevo.ipynb          # Notebook principal (usar este)
+├── project.ipynb                # Versión antigua (chatbot genérico)
+├── README.md                    # Este archivo
+├── proyecto.txt                 # Requisitos oficiales del profesor
+├── requirements.txt             # Dependencias Python
+├── Gramática guaraní.pdf        # Documento para RAG (subir manualmente)
+├── Diccionario Guaraní-Español.pdf  # Opcional
+└── app.py                       # Chatbot Gradio (demo, no usar para evaluación)
+```
 
 ---
 
@@ -158,4 +210,12 @@ python app.py
 
 ---
 
-> ⚠️ **Nota**: Este proyecto es de carácter educativo y de investigación. Las respuestas del chatbot son generadas por IA y no deben considerarse como referencia oficial del idioma guaraní.
+## 📚 Referencias
+
+- [AmericasNLP 2025 - Educational Materials Task](https://turing.iimas.unam.mx/americasnlp/2025_st_2.html)
+- [Dataset GitHub](https://github.com/AmericasNLP/americasnlp2025/tree/main/ST2_EducationalMaterials/data)
+- Gramática guaraní (Edición 2020)
+
+---
+
+> ⚠️ **Nota Importante**: Este es el proyecto correcto según los requisitos del profesor. Usa `project_nuevo.ipynb`, no `project.ipynb`.
