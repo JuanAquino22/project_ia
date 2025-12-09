@@ -1,9 +1,9 @@
-# Docker Compose para Chatbot de Guaraní
+# Docker Compose para Sistema de Transformación de Guaraní
 
 services:
-  chatbot:
+  transformation:
     build: .
-    container_name: guarani-chatbot
+    container_name: guarani-transformation
     ports:
       - "7860:7860"
     env_file:
@@ -13,5 +13,5 @@ services:
       - GRADIO_SERVER_PORT=7860
     restart: unless-stopped
     volumes:
-      # Opcional: montar vector store como volumen para actualizaciones
-      - ./vectorstore_guarani:/app/vectorstore_guarani:ro
+      # Montar vector store actualizado (faiss_store)
+      - ./faiss_store:/app/faiss_store:ro

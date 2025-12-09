@@ -1,4 +1,4 @@
-# Dockerfile para Chatbot RAG de Guaraní con Gradio
+# Dockerfile para Sistema de Transformación de Guaraní
 FROM python:3.11-slim
 
 # Configurar directorio de trabajo
@@ -19,8 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 COPY .env .env
 
-# Copiar vector store
-COPY vectorstore_guarani/ ./vectorstore_guarani/
+# Copiar vector store ACTUALIZADO (faiss_store)
+COPY faiss_store/ ./faiss_store/
 
 # Exponer puerto de Gradio
 EXPOSE 7860

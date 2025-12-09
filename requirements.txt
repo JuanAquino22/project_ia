@@ -1,13 +1,12 @@
-# Dependencias para el chatbot con Gradio
-langchain
+# Dependencias para sistema de transformación con Gradio
+langchain==0.3.0
 langchain-core
-langchain-community
-langchain-text-splitters
-langchain-huggingface
+langchain-community==0.3.0
+langchain-text-splitters==0.3.0
 
-# Vector store y embeddings
+# Vector store (FAISS con embeddings hash-based)
 faiss-cpu
-sentence-transformers
+numpy
 
 # API para LLMs
 requests

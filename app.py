@@ -1,276 +1,357 @@
 # -*- coding: utf-8 -*-
 """
-Chatbot RAG para Guaraní
-Comparación de modelos: GPT-3.5 Turbo vs Claude 3.5 Sonnet
-Con y sin RAG para idioma de bajo recursos
+Sistema de Transformación de Oraciones en Guaraní
+Dataset: AmericasNLP 2025
+Modelos: GPT-3.5 Turbo vs Claude 3.5 Sonnet
+Estrategias: Zero-Shot, Few-Shot, Semantic RAG, Hybrid RAG
 """
 
 import os
 import sys
-import gradio as gr
+import hashlib
+import numpy as np
 import requests
-from typing import Optional, List, Tuple
+import time
+from typing import Optional, Tuple
+from dotenv import load_dotenv
 
-os.environ['PYTHONUNBUFFERED'] = '1'
+load_dotenv()
 
+import gradio as gr
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_core.documents import Document
 
 # ===========================================
-# CONFIGURACIÓN DE MODELOS
+# EMBEDDINGS HASH-BASED
+# ===========================================
+class SimpleHashEmbedding:
+    def __init__(self, dim=384):
+        self.dim = dim
+
+    def _hash_vector(self, text):
+        h = hashlib.sha256(text.encode()).digest()
+        arr = np.frombuffer(h, dtype=np.uint8)
+        base = np.resize(arr, self.dim)
+        return (base / 255).astype(float).tolist()
+
+    def embed_documents(self, docs):
+        return [self._hash_vector(d) for d in docs]
+
+    def embed_query(self, text):
+        return self._hash_vector(text)
+
+# ===========================================
+# CONFIGURACIÓN
 # ===========================================
 MODELS = {
     "GPT-3.5 Turbo": "openai/gpt-3.5-turbo",
     "Claude 3.5 Sonnet": "anthropic/claude-3.5-sonnet"
 }
 
-def call_openrouter(prompt: str, api_key: str, model: str, max_tokens: int = 300) -> str:
-    """Llama a OpenRouter con el modelo seleccionado."""
+TRANSFORMATION_RULES = {
+    "TYPE:AFF": "Convierte negativa a afirmativa",
+    "TYPE:NEG": "Convierte afirmativa a negativa",
+    "TENSE:FUT_SIM": "Futuro simple",
+    "TENSE:PAST": "Pasado",
+    "PERSON:1_PL_INC": "1ª persona plural inclusiva",
+    "PERSON:1_PL_EXC": "1ª persona plural exclusiva",
+    "PERSON:3": "3ª persona singular"
+}
+
+FEW_SHOT_EXAMPLES = """
+Ejemplos:
+Input: Ore ndorombyai kuri | Change: TYPE:AFF
+Output: Ore rombyai kuri
+
+Input: Ore ndorombyai kuri | Change: TENSE:FUT_SIM
+Output: Ore ndorombyaita
+
+Input: Ore ndorombyai kuri | Change: PERSON:1_PL_INC
+Output: Ñande ñambyai kuri
+"""
+
+# ===========================================
+# OPENROUTER
+# ===========================================
+def call_openrouter(prompt: str, api_key: str, model: str, max_tokens: int = 150, temperature: float = 0.2) -> str:
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://github.com/JuanAquino22/project_ia",
-        "X-Title": "Guarani RAG Chatbot"
+        "X-Title": "Guarani Transformation System"
     }
 
-    print(f"🌐 Llamando {model}...", flush=True)
+    payload = {
+        "model": model,
+        "messages": [
+            {
+                "role": "system",
+                "content": "Eres experto en guaraní. Responde SOLO con la oración transformada, sin explicaciones."
+            },
+            {"role": "user", "content": prompt}
+        ],
+        "max_tokens": max_tokens,
+        "temperature": temperature
+    }
 
     try:
-        response = requests.post(
-            url,
-            headers=headers,
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": max_tokens,
-                "temperature": 0.7
-            },
-            timeout=60
-        )
-
-        if response.status_code == 200:
-            result = response.json()
-            if 'usage' in result:
-                u = result['usage']
-                print(
-                    f"📊 Tokens: {u.get('prompt_tokens', '?')} entrada, "
-                    f"{u.get('completion_tokens', '?')} salida",
-                    flush=True
-                )
-            return result["choices"][0]["message"]["content"]
-        else:
-            error_text = response.text
-            print(f"❌ Error {response.status_code}: {error_text}", flush=True)
-            return f"Error al conectar con el modelo: {response.status_code}"
+        response = requests.post(url, headers=headers, json=payload, timeout=60)
+        if response.status_code != 200:
+            return f"[Error {response.status_code}]"
+        content = response.json()["choices"][0]["message"]["content"]
+        return content.strip().split("\n")[0] if isinstance(content, str) else str(content).strip()
     except Exception as e:
-        print(f"❌ Error: {e}", flush=True)
-        return f"Error de conexión: {str(e)}"
+        return f"[Error de conexión]"
 
-
-class GuaraniChatbot:
-    """Chatbot para consultas sobre el idioma guaraní"""
-
-    def __init__(self, retriever, api_key: str):
+# ===========================================
+# SISTEMA DE TRANSFORMACIÓN
+# ===========================================
+class GuaraniTransformationSystem:
+    def __init__(self, retriever=None, api_key: str = None):
         self.retriever = retriever
-        self.api_key = api_key
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
 
-    def respond(self, message: str, model_name: str, use_rag: bool) -> str:
-        """Genera respuesta usando el modelo y configuración seleccionados"""
+    def _clean(self, text: str) -> str:
+        if not isinstance(text, str):
+            return ""
+        text = text.strip()
+        for tag in ["Output:", "output:", "Respuesta:", "respuesta:", "Target:", "target:"]:
+            text = text.replace(tag, "").strip()
+        return text.split("\n")[0].replace('"', "").strip()
 
-        model_id = MODELS.get(model_name, "openai/gpt-3.5-turbo")
+    def _zero_shot(self, source: str, change: str, model_id: str) -> str:
+        rule_expl = TRANSFORMATION_RULES.get(change, "Regla no documentada.")
+        prompt = f"""Transforma la oración en guaraní según esta regla:
 
-        print(f"\n{'=' * 50}", flush=True)
-        print(f"📝 Mensaje: {message}", flush=True)
-        print(f"🤖 Modelo: {model_name}", flush=True)
-        print(f"📚 RAG: {'Activado' if use_rag else 'Desactivado'}", flush=True)
+Regla: {change}
+Descripción: {rule_expl}
 
-        if use_rag:
-            return self._query_with_rag(message, model_id)
+Oración original: {source}
+
+Responde solo con la oración transformada:"""
+        return self._clean(call_openrouter(prompt, self.api_key, model_id))
+
+    def _few_shot(self, source: str, change: str, model_id: str) -> str:
+        rule_expl = TRANSFORMATION_RULES.get(change, "Regla no documentada.")
+        prompt = f"""Transforma la oración en guaraní según esta regla.
+
+Regla: {change}
+Descripción: {rule_expl}
+
+{FEW_SHOT_EXAMPLES}
+
+Ahora transforma esta oración:
+Oración original: {source}
+
+Responde solo con la oración transformada:"""
+        return self._clean(call_openrouter(prompt, self.api_key, model_id))
+
+    def _semantic_rag(self, source: str, change: str, model_id: str) -> Tuple[str, str]:
+        rule_expl = TRANSFORMATION_RULES.get(change, "Regla no documentada.")
+        query = f"transformación {change} guaraní negación afirmación tiempo persona"
+        docs = []
+        page_info = "Sin RAG"
+        
+        try:
+            if self.retriever:
+                docs = self.retriever.invoke(query)
+        except:
+            pass
+        
+        if docs:
+            context = "\n".join([d.page_content[:250] for d in docs[:2]])
+            page_info = f"Chunk: {docs[0].metadata.get('chunk_id', 'N/A')}"
         else:
-            return self._query_without_rag(message, model_id)
-
-    def _query_without_rag(self, question: str, model_id: str) -> str:
-        """Consulta directa al modelo (sin RAG)"""
-
-        prompt = f"""Eres un asistente de idioma guaraní.
-
-PREGUNTA: {question}
-
-REGLAS IMPORTANTES:
-- Solo responde si estás MUY seguro de la respuesta
-- Si tienes dudas, responde: "Recomiendo activar RAG para obtener información verificada de la gramática guaraní"
-- NUNCA inventes palabras en guaraní
-- Es preferible decir "no lo sé" que dar información incorrecta
-
-Responde con precisión o indica que necesitas RAG activado."""
-
-        return call_openrouter(prompt, self.api_key, model_id)
-
-    def _query_with_rag(self, question: str, model_id: str) -> str:
-        """Consulta con RAG - usa documentos de gramática guaraní"""
-
-        # Buscar documentos relevantes
-        print("🔍 Buscando en documentos de gramática...", flush=True)
-        docs = self.retriever.invoke(question)
-        print(f"📄 Documentos encontrados: {len(docs)}", flush=True)
-
-        # Construir contexto (más grande para tener más información)
-        context = "\n\n".join([d.page_content[:800] for d in docs[:3]])
-
-        prompt = f"""Eres un asistente para consultar gramática guaraní.
-
-DOCUMENTOS DE REFERENCIA:
+            context = "(Sin contexto)"
+            
+        prompt = f"""Contexto gramatical:
 {context}
 
-PREGUNTA DEL USUARIO: {question}
+Regla: {change}
+Descripción: {rule_expl}
 
-REGLAS ESTRICTAS:
-1. Lee cuidadosamente los documentos de referencia
-2. Si la respuesta está en los documentos, úsala EXACTAMENTE como aparece
-3. Si NO está en los documentos, responde SOLAMENTE: "No encuentro esa información específica en la gramática. ¿Puedes reformular tu pregunta?"
-4. NUNCA inventes traducciones, números o vocabulario guaraní
-5. Si los documentos mencionan la palabra/concepto pero no dan traducción completa, di: "Los documentos mencionan [concepto] pero no proporcionan la traducción exacta"
+Oración original: {source}
 
-Responde de forma clara y precisa."""
+Responde solo con la oración transformada:"""
 
-        return call_openrouter(prompt, self.api_key, model_id)
+        result = self._clean(call_openrouter(prompt, self.api_key, model_id))
+        return result, page_info
 
+    def _hybrid_rag(self, source: str, change: str, model_id: str) -> Tuple[str, str]:
+        rule_expl = TRANSFORMATION_RULES.get(change, "Regla no documentada.")
+        query = f"transformación {change} guaraní"
+        docs = []
+        page_info = "Sin RAG"
+        
+        try:
+            if self.retriever:
+                docs = self.retriever.invoke(query)
+        except:
+            pass
+        
+        if docs:
+            context = "\n".join([d.page_content[:250] for d in docs[:2]])
+            page_info = f"Chunk: {docs[0].metadata.get('chunk_id', 'N/A')}"
+        else:
+            context = "(Sin contexto)"
+        
+        prompt = f"""Contexto:
+{context}
+
+{FEW_SHOT_EXAMPLES}
+
+Regla: {change}
+Descripción: {rule_expl}
+
+Oración original: {source}
+
+Responde solo con la oración transformada:"""
+
+        result = self._clean(call_openrouter(prompt, self.api_key, model_id))
+        return result, page_info
+
+    def transform(self, source: str, change: str, model_name: str, strategy: str) -> Tuple[str, str]:
+        model_id = MODELS.get(model_name, "anthropic/claude-3.5-sonnet")
+        
+        if strategy == "Zero-Shot":
+            result = self._zero_shot(source, change, model_id)
+            return result, "Sin RAG"
+        elif strategy == "Few-Shot":
+            result = self._few_shot(source, change, model_id)
+            return result, "Sin RAG"
+        elif strategy == "Semantic RAG":
+            return self._semantic_rag(source, change, model_id)
+        elif strategy == "Hybrid RAG":
+            return self._hybrid_rag(source, change, model_id)
+        else:
+            return "Estrategia no reconocida", "Error"
 
 # ===========================================
 # INICIALIZACIÓN
 # ===========================================
-chatbot: Optional[GuaraniChatbot] = None
-
+system: Optional[GuaraniTransformationSystem] = None
+vectorstore_loaded = False
 
 def initialize():
-    """Inicializa el chatbot"""
-    global chatbot
-
-    print("🚀 Iniciando Chatbot de Guaraní...", flush=True)
-
-    # API Key
+    global system, vectorstore_loaded
+    
+    print("🚀 Iniciando Sistema de Transformación de Guaraní...", flush=True)
+    
     api_key = os.getenv("OPENROUTER_API_KEY")
-
     if not api_key:
-        raise ValueError("❌ Falta OPENROUTER_API_KEY en el archivo .env")
-
-    print("✅ API Key configurada", flush=True)
-
-    # Cargar embeddings y vector store
-    print("📚 Cargando modelo de embeddings...", flush=True)
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
-    )
-
-    print("💾 Cargando base de conocimiento...", flush=True)
-    vectorstore = FAISS.load_local(
-        "vectorstore_guarani",
-        embeddings,
-        allow_dangerous_deserialization=True
-    )
-
-    retriever = vectorstore.as_retriever(
-        search_type="similarity",
-        search_kwargs={"k": 3}
-    )
-
-    # Crear chatbot
-    chatbot = GuaraniChatbot(retriever, api_key)
-
-    print("✅ Chatbot listo!", flush=True)
-
-
-def chat(message: str, history: List[Tuple[str, str]], model: str, use_rag: bool) -> str:
-    """Función del chat para Gradio"""
-    if not message.strip():
-        return "Por favor, escribe tu pregunta."
-
+        print("⚠️ ADVERTENCIA: OPENROUTER_API_KEY no configurada", flush=True)
+    
+    retriever = None
     try:
-        response = chatbot.respond(message, model, use_rag)
-        print(f"📤 Respuesta enviada", flush=True)
-        print(f"{'=' * 50}\n", flush=True)
-        return response
+        print("📚 Cargando faiss_store...", flush=True)
+        embeddings = SimpleHashEmbedding()
+        vectorstore = FAISS.load_local("faiss_store", embeddings, allow_dangerous_deserialization=True)
+        retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 2})
+        vectorstore_loaded = True
+        print("✅ faiss_store cargado", flush=True)
     except Exception as e:
-        print(f"❌ Error: {e}", flush=True)
-        return f"Error: {str(e)}"
+        print(f"⚠️ No se pudo cargar faiss_store: {e}", flush=True)
+        print("🔄 Sistema funcionará sin RAG", flush=True)
+    
+    system = GuaraniTransformationSystem(retriever=retriever, api_key=api_key)
+    print("✅ Sistema listo!", flush=True)
 
+def transform_sentence(source: str, change: str, model: str, strategy: str):
+    if not source.strip():
+        return "⚠️ Error: Ingresa una oración"
+    if not change:
+        return "⚠️ Error: Selecciona una transformación"
+    
+    if "RAG" in strategy and not vectorstore_loaded:
+        fallback_strategy = "Few-Shot" if "Hybrid" in strategy else "Zero-Shot"
+        strategy = fallback_strategy
+    
+    try:
+        print(f"🔄 Procesando: {source[:30]}... | {change} | {model} | {strategy}", flush=True)
+        result, page_info = system.transform(source, change, model, strategy)
+        print(f"✅ Resultado: {result}", flush=True)
+        
+        output = f"""🎯 RESULTADO
 
-# Inicializar
+Oración Original: {source}
+
+Regla: {change}
+
+Oración Transformada: {result}
+
+Info RAG: {page_info}
+
+Modelo: {model} | Estrategia: {strategy}
+"""
+        return output
+    except Exception as e:
+        print(f"❌ Error: {str(e)}", flush=True)
+        return f"❌ ERROR: {str(e)[:200]}"
+
 initialize()
 
 # ===========================================
 # INTERFAZ GRADIO
 # ===========================================
-with gr.Blocks(title="Chatbot Guaraní 🇵🇾", theme=gr.themes.Soft()) as demo:
-    gr.Markdown("""
-    # 🇵🇾 Chatbot de Guaraní (Avañe'ẽ)
-    
-    Asistente para aprender y consultar sobre el idioma guaraní.
-    Basado en documentos de gramática guaraní con sistema RAG.
-    """)
-
-    with gr.Row():
-        with gr.Column(scale=3):
-            chatbot_ui = gr.Chatbot(
-                label="Conversación",
-                height=450,
-                show_label=False
-            )
-            msg = gr.Textbox(
-                label="Tu pregunta",
-                placeholder="Escribe tu pregunta sobre guaraní...",
-                lines=2,
-                show_label=False
-            )
-
-            with gr.Row():
-                send_btn = gr.Button("Enviar", variant="primary", scale=2)
-                clear_btn = gr.Button("Limpiar", scale=1)
-
-        with gr.Column(scale=1):
-            gr.Markdown("### ⚙️ Configuración")
-
-            model_selector = gr.Dropdown(
-                choices=list(MODELS.keys()),
-                value="GPT-3.5 Turbo",
-                label="Modelo"
-            )
-
-            rag_toggle = gr.Checkbox(
-                value=True,
-                label="Usar RAG (base de conocimiento)"
-            )
-
-            gr.Markdown("---")
-            gr.Markdown("### 💡 Ejemplos")
-            gr.Markdown("""
-            - ¿Cómo se dice "hola" en guaraní?
-            - ¿Cuáles son los pronombres personales?
-            - ¿Cómo se forma el plural?
-            - ¿Qué significa "mba'éichapa"?
-            - Enséñame los números del 1 al 10
-            - ¿Cómo se conjuga el verbo "ir"?
-            """)
-
-            gr.Markdown("---")
-            gr.Markdown("""
-            ### ℹ️ Información
-            **RAG activado**: Usa documentos de gramática guaraní para respuestas más precisas.
+def create_demo():
+    with gr.Blocks(title="Transformación Guaraní 🇵🇾", theme=gr.themes.Soft()) as demo:
+        
+        gr.Markdown("# 🇵🇾 Sistema de Transformación de Oraciones en Guaraní")
+        gr.Markdown("**Dataset:** AmericasNLP 2025 | **Modelos:** GPT-3.5 & Claude 3.5")
+        
+        with gr.Row():
+            with gr.Column():
+                gr.Markdown("### Entrada")
+                source_input = gr.Textbox(label="Oración Original", placeholder="Ore ndorombyai kuri", lines=2)
+                change_dropdown = gr.Dropdown(choices=list(TRANSFORMATION_RULES.keys()), label="Regla", value="TYPE:AFF")
+                
+                with gr.Row():
+                    model_dropdown = gr.Dropdown(choices=list(MODELS.keys()), label="Modelo", value="Claude 3.5 Sonnet")
+                    strategy_dropdown = gr.Dropdown(choices=["Zero-Shot", "Few-Shot", "Semantic RAG", "Hybrid RAG"], label="Estrategia", value="Few-Shot")
+                
+                with gr.Row():
+                    submit_btn = gr.Button("Transformar", variant="primary")
+                    clear_btn = gr.Button("Limpiar")
             
-            **RAG desactivado**: Responde solo con el conocimiento del modelo (modo muy conservador).
-            """)
-
-    def respond(message, history, model, use_rag):
-        answer = chat(message, history, model, use_rag)
-        history.append((message, answer))
-        return "", history
-
-    # Eventos
-    msg.submit(respond, [msg, chatbot_ui, model_selector, rag_toggle], [msg, chatbot_ui])
-    send_btn.click(respond, [msg, chatbot_ui, model_selector, rag_toggle], [msg, chatbot_ui])
-    clear_btn.click(lambda: (None, []), None, [msg, chatbot_ui])
-
+            with gr.Column():
+                gr.Markdown("### Resultado")
+                result_output = gr.Textbox(label="Transformación", lines=12, value="Esperando...", interactive=False)
+        
+        with gr.Accordion("📖 Reglas", open=False):
+            gr.Markdown("""
+**TYPE:AFF** - Negativa → Afirmativa  
+**TYPE:NEG** - Afirmativa → Negativa  
+**TENSE:FUT_SIM** - Futuro simple  
+**TENSE:PAST** - Pasado  
+**PERSON:1_PL_INC** - 1ª plural inclusiva  
+**PERSON:1_PL_EXC** - 1ª plural exclusiva  
+**PERSON:3** - 3ª persona
+""")
+        
+        with gr.Accordion("💡 Ejemplos", open=False):
+            gr.Examples(
+                examples=[
+                    ["Ore ndorombyai kuri", "TYPE:AFF", "Claude 3.5 Sonnet", "Few-Shot"],
+                    ["Ore rombyai kuri", "TYPE:NEG", "Claude 3.5 Sonnet", "Hybrid RAG"],
+                    ["Ore ndorombyai kuri", "TENSE:FUT_SIM", "GPT-3.5 Turbo", "Semantic RAG"],
+                ],
+                inputs=[source_input, change_dropdown, model_dropdown, strategy_dropdown]
+            )
+        
+        submit_btn.click(
+            fn=transform_sentence,
+            inputs=[source_input, change_dropdown, model_dropdown, strategy_dropdown],
+            outputs=result_output
+        )
+        
+        clear_btn.click(
+            lambda: ("", "TYPE:AFF", "Claude 3.5 Sonnet", "Few-Shot", "Esperando..."),
+            outputs=[source_input, change_dropdown, model_dropdown, strategy_dropdown, result_output]
+        )
+    
+    return demo
 
 if __name__ == "__main__":
+    demo = create_demo()
     demo.queue().launch(server_name="0.0.0.0", server_port=7860)
