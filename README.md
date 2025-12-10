@@ -270,17 +270,6 @@ docker compose up --build
 # Acceder a http://localhost:7860
 ```
 
-### Opción 3: Local (Python)
-```bash
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Configurar API key
-export OPENROUTER_API_KEY="tu-key-aqui"
-
-# Ejecutar aplicación
-python app.py
-
 # Acceder a http://localhost:7860
 ```
 
@@ -336,16 +325,6 @@ Oración Original → Estrategia Seleccionada → LLM → Oración Transformada
 
 ---
 
-## 🏆 Contribuciones y Hallazgos Clave
-
-1. **Primera evaluación sistemática** de RAG vs Few-Shot para transformaciones morfológicas en guaraní
-2. **Hallazgo contraintuitivo:** Few-shot superó a RAG (50% vs 40%) debido a corpus teórico vs práctico
-3. **Benchmark reproducible:** Código y resultados públicos en AmericasNLP 2025
-4. **Sistema funcional:** Interfaz Gradio lista para investigación y demostración
-5. **Lecciones para lenguas de bajo recurso:** Calidad del corpus > sofisticación técnica
-
----
-
 ## 📚 Referencias y Recursos
 
 - **Dataset oficial:** [AmericasNLP 2025 - Shared Task 2](https://github.com/AmericasNLP/americasnlp2025/tree/main/ST2_EducationalMaterials)
@@ -364,42 +343,6 @@ Oración Original → Estrategia Seleccionada → LLM → Oración Transformada
 
 ---
 
-## 🚀 Cómo Ejecutar el Proyecto
-
-### Opción 1: Google Colab (Recomendado)
-
-1. Abre el notebook en Colab:
-   - Clic en el badge "Open in Colab" al inicio del notebook
-   - O visita: https://colab.research.google.com/github/JuanAquino22/project_ia/blob/main/project_nuevo.ipynb
-
-2. Configura tu API Key de OpenRouter:
-   ```python
-   # En Colab Secrets o en el notebook
-   OPENROUTER_API_KEY = "tu_api_key_aqui"
-   ```
-
-3. Sube el archivo `Gramática guaraní.pdf` cuando se te pida
-
-4. Ejecuta todas las celdas secuencialmente
-
-### Opción 2: Local
-
-```bash
-git clone https://github.com/JuanAquino22/project_ia.git
-cd project_ia
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Configurar API Key
-echo "OPENROUTER_API_KEY=tu_api_key" > .env
-
-# Ejecutar notebook
-jupyter notebook project_nuevo.ipynb
-```
-
----
-
 ## 🛠️ Tecnologías Utilizadas
 
 - **LangChain** - Framework para RAG
@@ -409,61 +352,6 @@ jupyter notebook project_nuevo.ipynb
 - **SacreBLEU** - Métricas de evaluación de texto
 - **Pandas** - Procesamiento de datos
 
----
-
-## 📁 Estructura del Proyecto
-
-```
-project_ia/
-├── project_nuevo.ipynb          # Notebook principal (usar este)
-├── project.ipynb                # Versión antigua (chatbot genérico)
-├── README.md                    # Este archivo
-├── proyecto.txt                 # Requisitos oficiales del profesor
-├── requirements.txt             # Dependencias Python
-├── Gramática guaraní.pdf        # Documento para RAG (subir manualmente)
-├── Diccionario Guaraní-Español.pdf  # Opcional
-└── app.py                       # Chatbot Gradio (demo, no usar para evaluación)
-```
-
----
-
-**GitHub:** [@JuanAquino22](https://github.com/JuanAquino22)  
-**Repositorio:** [project_ia](https://github.com/JuanAquino22/project_ia)
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-- **LangChain 0.3.0** - Framework para construcción de RAG
-- **FAISS (CPU)** - Vector store para búsqueda por similitud
-- **Gradio 3.50.2** - Interfaz web interactiva
-- **OpenRouter API** - Acceso unificado a GPT-3.5 y Claude 3.5
-- **SacreBLEU** - Métricas estándar de evaluación NLP
-- **Pandas** - Manipulación y análisis de datos
-- **Docker** - Contenedorización para despliegue
-
----
-
-## 📁 Estructura del Repositorio
-
-```
-project_ia/
-├── projectIA.ipynb                      # 📓 Notebook principal (Colab)
-├── app.py                               # 🖥️ Aplicación Gradio
-├── requirements.txt                     # 📦 Dependencias Python
-├── Dockerfile                           # 🐳 Configuración Docker
-├── docker-compose.yml                   # 🚀 Orquestación contenedores
-├── .env                                 # 🔑 API keys (no en repo)
-├── README.md                            # 📖 Este archivo
-├── proyecto.txt                         # 📋 Requisitos oficiales
-├── faiss_store/                         # 🗂️ Vector store pre-construido
-├── rag_documents.json                   # 📚 Chunks de gramática
-├── rag_metadata.json                    # ℹ️ Metadatos RAG
-├── guarani_transformation_results.json  # 📊 Resultados evaluación
-└── comparison_table.csv                 # 📈 Tabla comparativa
-```
-
----
 
 ## 📚 Referencias y Recursos
 
@@ -485,22 +373,6 @@ project_ia/
 
 ---
 
-## 🎯 Próximos Pasos
-
-- [ ] Evaluar en **test set completo** (100+ ejemplos)
-- [ ] Implementar **fine-tuning** con train set (800+ ejemplos)
-- [ ] Probar modelos adicionales (GPT-4, Llama 3, Mixtral)
-- [ ] Optimizar sistema RAG con ejemplos prácticos en lugar de teoría
-- [ ] Expandir a otros idiomas indígenas (quechua, aymara, náhuatl)
-- [ ] Crear dataset anotado con transformaciones reales
-
----
-
-## 📄 Licencia
-
-Este proyecto es de código abierto bajo licencia MIT. Desarrollado con fines educativos y de investigación.
-
----
 
 ## 📞 Contacto y Contribuciones
 
