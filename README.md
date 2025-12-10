@@ -314,7 +314,7 @@ Oración Original → Estrategia Seleccionada → LLM → Oración Transformada
                    [Semantic RAG (FAISS)]
                    [Hybrid RAG (BM25+FAISS)]
 ```
-
+---
 ### Componentes RAG
 - **Base de conocimiento:** Gramática Guaraní 2020 (200+ páginas)
 - **Procesamiento:** 1400+ chunks extraídos con RecursiveCharacterTextSplitter
